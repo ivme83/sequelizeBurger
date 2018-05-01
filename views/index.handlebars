@@ -10,8 +10,8 @@
 
       <ul>
         {{#each burgers}}
-          {{#unless devoured}}
-            {{> burgers/burger-block devoured=true}}
+          {{#unless onMenu}}
+            {{> burgers/burger-block onMenu=true}}
           {{/unless}}
         {{/each}}
       </ul>
@@ -23,8 +23,8 @@
 
       <ul>
         {{#each burgers}}
-          {{#if devoured}}
-            {{> burgers/burger-block devoured=false}}
+          {{#if onMenu}}
+            {{> burgers/burger-block onMenu=false}}
           {{/if}}
         {{/each}}
       </ul>
@@ -43,9 +43,9 @@
         </div>
 
         <div class="form-group">
-          <label for="devoured">Eaten?</label><br>
-          <input type="radio" name="devoured" value="1" checked> Devoured!<br>
-          <input type="radio" name="devoured" value="0"> Looking delicious
+          <label for="onMenu">Eaten?</label><br>
+          <input type="radio" name="onMenu" value="1" checked> onMenu!<br>
+          <input type="radio" name="onMenu" value="0"> Looking delicious
         </div>
 
         <button class="myBtn" type="submit"><img class="imgBtn" src="assets/img/rbn-btn.png"><span>Add</span></button>
