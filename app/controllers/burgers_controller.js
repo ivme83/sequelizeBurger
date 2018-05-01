@@ -1,67 +1,62 @@
-var express = require("express");
+const express = require("express");
 
-var router = express.Router();
+const router = express.Router();
 
-var db = require("../models");
+const db = require("../models");
 
 router.get("/", function(req, res) {
 
-  db.burgers.findAll({}).then(function(results){
-    var data = [];
+  db.burger.findAll({}).then(function(results){
+    let data = [];
+
     results.forEach(element => {
       data.push(element.dataValues)
     });
 
-    var hbsObject = {
+    let hbsObject = {
       burgers: data
     };
+
     res.render("index", hbsObject);
     
   });
 
 });
 
-// router.post("/api/burgers", function(req, res) {
-//   console.log(req.body);
-//   burger.create([
-//     "burger_name", "devoured"
-//   ], [
-//     req.body.burger_name, req.body.devoured
-//   ], function(result) {
-//     // Send back the ID of the new burger
-//     res.json({ id: result.insertId });
-//   });
-// });
+router.post("/api/burgers", function(req, res) {
+  db.burger.create({
+    burger_name: req.body.burger_name,
+    onMenu: req.body.onMenu
+  }).then(function(results) {
+    res.end();
+  });
 
-// router.put("/api/burgers/:id", function(req, res) {
-//   var condition = "id = " + req.params.id;
+});
 
-//   console.log("condition", condition);
+router.put("/api/burgers/:id", function(req, res) {
 
-//   burger.update({
-//     devoured: req.body.devoured
-//   }, condition, function(result) {
-//     if (result.changedRows == 0) {
-//       // If no rows were changed, then the ID must not exist, so 404
-//       return res.status(404).end();
-//     } else {
-//       res.status(200).end();
-//     }
-//   });
-// });
+  let data = {id: req.params.id, onMenu: req.body.onMenu};
 
-// router.delete("/api/burgers/:id", function(req, res) {
-//   var condition = "id = " + req.params.id;
+  db.burger.upsert(data).then(function(results){
+    //test returned here as true or false how can i get the inserted id here so i can insert data in other tables using this new id?
+    console.log("RESULTS OF UPDATE " + results);
 
-//   burger.delete(condition, function(result) {
-//     if (result.affectedRows == 0) {
-//       // If no rows were changed, then the ID must not exist, so 404
-//       return res.status(404).end();
-//     } else {
-//       res.status(200).end();
-//     }
-//   });
-// });
+    res.end();
+  });
+
+});
+
+router.delete("/api/burgers/:id", function(req, res) {
+  let id = req.params.id;
+
+  db.burger.destroy({
+    where: {
+      id: id
+    }
+  }).then(function(results){
+    res.end();
+  });
+});
 
 // Export routes for server.js to use.
 module.exports = router;

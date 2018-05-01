@@ -4,21 +4,20 @@ $(function() {
     // ## THESE NEED TO BE CHANGED TO BURGER BUTTONS ##
 
     // ## Change state of item ##
-    $(".change-devoured").on("click", function(event) {
+    $(".change-onMenu").on("click", function(event) {
       var id = $(this).data("id");
-      var newDevoured = $(this).data("newdevoured");
-  
-      var newDevouredState = {
-        devoured: newDevoured
+      var newMenu = $(this).data("newmenu");
+
+      var newonMenuState = {
+        onMenu: newMenu
       };
-  
+
       // Send the PUT request.
       $.ajax("/api/burgers/" + id, {
         type: "PUT",
-        data: newDevouredState
+        data: newonMenuState
       }).then(
         function() {
-          console.log("changed devoured to", newDevoured);
           // Reload the page to get the updated list
           location.reload();
         }
@@ -32,7 +31,7 @@ $(function() {
 
       var newBurger = {
         burger_name: $("#burg").val().trim(),
-        devoured: $("[name=devoured]:checked").val().trim()
+        onMenu: $("[name=onMenu]:checked").val().trim()
       };
 
 
@@ -54,7 +53,7 @@ $(function() {
     // ## Remove burger ##
     $(".delete-burger").on("click", function(event) {
       var id = $(this).data("id");
-  
+
       // Send the DELETE request.
       $.ajax("/api/burgers/" + id, {
         type: "DELETE"
