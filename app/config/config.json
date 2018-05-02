@@ -5,19 +5,21 @@
     "database": "iv_design_database",
     "host": "mysql.iv-design.net",
     "dialect": "mysql"
-  },
-  "development": {
-    "username": "root",
-    "password": "Aura*6983",
-    "database": "burgers_db",
-    "host": "localhost",
-    "dialect": "mysql"
-  },
-  "test": {
-    "username": "rolwil3",
-    "password": Aura*6983,
-    "database": "iv_design_database",
-    "host": "mysql.iv-design.net",
-    "dialect": "mysql"
   }
 }
+
+  // ,
+  // "development": {
+  //   "username": "root",
+  //   "password": "Aura*6983",
+  //   "database": "burgers_db",
+  //   "host": "localhost",
+  //   "dialect": "mysql"
+  // },
+  // "test": {
+  //   "username": "rolwil3",
+  //   "password": Aura*6983,
+  //   "database": "iv_design_database",
+  //   "host": "mysql.iv-design.net",
+  //   "dialect": "mysql"
+  // }
