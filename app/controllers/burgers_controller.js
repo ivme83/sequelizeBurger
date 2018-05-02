@@ -7,15 +7,17 @@ var Sequelize = require('sequelize');
 
 const Op = Sequelize.Op;
 
+var allBurgers = [];
+
 router.get("/", function(req, res) {
 
   db.burger.findAll({
       include: [db.user],
     }).then(function(results){
-
-      let data = results.map(e => e.get({plain: true}));
-      let votedIn = data.filter(e => e.votes > 99);
-      let notVotedIn = data.filter(e => e.votes < 100);
+      allBurgers = [];
+      allBurgers = results.map(e => e.get({plain: true}));
+      let votedIn = allBurgers.filter(e => e.votes > 99);
+      let notVotedIn = allBurgers.filter(e => e.votes < 100);
 
       let hbsObject = {
         votedIn: votedIn,
@@ -37,12 +39,16 @@ router.post("/api/burgers", function(req, res) {
 
     let id = results[0].dataValues.customer_id;
     
-    db.burger.create({
-      burger_name: req.body.burger_name,
-      userCustomerId: id
-    }).then(function(results) {
-      res.end();
-    });
+    if(search("burger_name", req.body.burger_name, allBurgers)){
+      console.log("FOUND IT");
+    } else {
+      db.burger.create({
+        burger_name: req.body.burger_name,
+        userCustomerId: id
+      }).then(function(results) {
+        res.end();
+      });
+    }
   });
 });
 
@@ -65,6 +71,14 @@ router.delete("/api/burgers/:id", function(req, res) {
     res.end();
   });
 });
+
+function search(nameKey, nameValue, myArray){
+  for (var i=0; i < myArray.length; i++) {
+      if (myArray[i][nameKey] === nameValue) {
+          return myArray[i];
+      }
+  }
+}
 
 // Export routes for server.js to use.
 module.exports = router;
