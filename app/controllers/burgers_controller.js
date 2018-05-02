@@ -3,46 +3,54 @@ const express = require("express");
 const router = express.Router();
 
 const db = require("../models");
+var Sequelize = require('sequelize');
+
+const Op = Sequelize.Op;
 
 router.get("/", function(req, res) {
 
-  db.burger.findAll({}).then(function(results){
-    let data = [];
+  db.burger.findAll({
+      include: [db.user],
+    }).then(function(results){
 
-    results.forEach(element => {
-      data.push(element.dataValues)
-    });
+      let data = results.map(e => e.get({plain: true}));
+      let votedIn = data.filter(e => e.votes > 99);
+      let notVotedIn = data.filter(e => e.votes < 100);
 
-    let hbsObject = {
-      burgers: data
-    };
+      let hbsObject = {
+        votedIn: votedIn,
+        notVotedIn: notVotedIn
+      };
 
-    res.render("index", hbsObject);
+      res.render("index", hbsObject);
     
   });
 
 });
 
 router.post("/api/burgers", function(req, res) {
-  db.burger.create({
-    burger_name: req.body.burger_name,
-    onMenu: req.body.onMenu
-  }).then(function(results) {
-    res.end();
-  });
+  let data = {customer_name: req.body.user};
 
+  db.user.findOrCreate({
+    where: {customer_name: req.body.user},
+  }).then(function(results){
+
+    let id = results[0].dataValues.customer_id;
+    
+    db.burger.create({
+      burger_name: req.body.burger_name,
+      userCustomerId: id
+    }).then(function(results) {
+      res.end();
+    });
+  });
 });
 
 router.put("/api/burgers/:id", function(req, res) {
 
-  let data = {id: req.params.id, onMenu: req.body.onMenu};
-
-  db.burger.upsert(data).then(function(results){
-    //test returned here as true or false how can i get the inserted id here so i can insert data in other tables using this new id?
-    console.log("RESULTS OF UPDATE " + results);
-
+  db.burger.increment('votes', { where: { id: req.params.id }}).then(function(results){
     res.end();
-  });
+  })
 
 });
 

@@ -14,10 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "username": "rolwil3",
+    "password": Aura*6983,
+    "database": "iv_design_database",
+    "host": "mysql.iv-design.net",
     "dialect": "mysql"
   }
 }
