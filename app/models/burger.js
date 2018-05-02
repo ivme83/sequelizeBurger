@@ -8,15 +8,22 @@ module.exports = function(sequelize, DataTypes){
     burger_name: {
         type: DataTypes.STRING
     },
-    onMenu: {
-        type: DataTypes.BOOLEAN
-    },
-    customer_id: {
-        type: DataTypes.INTEGER
+    votes: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
     }
     }, {
     timestamps: true
     });
+
+    Burger.associate = function (models) {
+        models.burger.belongsTo(models.user, {
+          onDelete: "CASCADE",
+          foreignKey: {
+            allowNull: false
+          }
+        });
+      };
 
     return Burger;
 }

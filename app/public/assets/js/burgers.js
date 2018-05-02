@@ -4,18 +4,12 @@ $(function() {
     // ## THESE NEED TO BE CHANGED TO BURGER BUTTONS ##
 
     // ## Change state of item ##
-    $(".change-onMenu").on("click", function(event) {
+    $(".vote-for").on("click", function(event) {
       var id = $(this).data("id");
-      var newMenu = $(this).data("newmenu");
-
-      var newonMenuState = {
-        onMenu: newMenu
-      };
-
+      
       // Send the PUT request.
       $.ajax("/api/burgers/" + id, {
-        type: "PUT",
-        data: newonMenuState
+        type: "PUT"
       }).then(
         function() {
           // Reload the page to get the updated list
@@ -31,11 +25,8 @@ $(function() {
 
       var newBurger = {
         burger_name: $("#burg").val().trim(),
-        onMenu: $("[name=onMenu]:checked").val().trim()
+        user: $("#user").val().trim()
       };
-
-
-      console.log("THIS IS THE BURGER BEING CREATED" + newBurger);
   
       // Send the POST request.
       $.ajax("/api/burgers", {

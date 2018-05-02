@@ -9,32 +9,34 @@
       <h1>On Menu</h1>
 
       <ul>
-        {{#each burgers}}
-          {{#if onMenu}}
-            {{> burgers/burger-block onMenu=false}}
-          {{/if}}
+        {{#each votedIn}}
+          {{> burgers/burger-block}}
         {{/each}}
       </ul>
     </div>
 
     <div class="menu-btm-right">
       <img class="swirl" src="../assets/img/swirls9.png">
-      <h1>Ordered</h1>
+      <h1>Suggested</h1>
+      <h3>Get 100 votes to be on the Menu!</h3>
 
       <ul>
-        {{#each burgers}}
-          {{#unless onMenu}}
-            {{> burgers/burger-block onMenu=true}}
-          {{/unless}}
+        {{#each notVotedIn}}
+          {{> burgers/burger-block}}
         {{/each}}
       </ul>
     </div>
 
     <div class="menu-left">
       <img class="swirl" src="../assets/img/swirls9.png">
-      <h1>Add a Burger</h1>
+      <h1>Recommend a Burger</h1>
       <br>
       <form class="create-form">
+        <div class="form-group">
+          <div class="input-holder">
+          <label for="user">User Name: </label>
+          <input type="text" id="user" name="name"><img class="txtFrm" src="assets/img/frm.png"></div>
+        </div>
 
         <div class="form-group">
           <div class="input-holder">
@@ -42,13 +44,7 @@
           <input type="text" id="burg" name="name"><img class="txtFrm" src="assets/img/frm.png"></div>
         </div>
 
-        <div class="form-group">
-          <label for="onMenu">Eaten?</label><br>
-          <input type="radio" name="onMenu" value="1" checked> On Menu!<br>
-          <input type="radio" name="onMenu" value="0"> Add to Order
-        </div>
-
-        <button class="myBtn" type="submit"><img class="imgBtn" src="assets/img/rbn-btn.png"><span>Add</span></button>
+        <button class="myBtn" type="submit"><img class="imgBtn" src="assets/img/rbn-btn.png"><span>Recommend</span></button>
       </form>      
     </div>
 
