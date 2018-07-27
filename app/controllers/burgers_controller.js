@@ -40,7 +40,7 @@ router.post("/api/burgers", function(req, res) {
     let id = results[0].dataValues.customer_id;
     
     if(search("burger_name", req.body.burger_name, allBurgers)){
-      console.log("FOUND IT");
+      res.end();
     } else {
       db.burger.create({
         burger_name: req.body.burger_name,
